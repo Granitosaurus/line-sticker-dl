@@ -4,7 +4,7 @@ import os
 import re
 from asyncio import gather
 from pathlib import Path
-from typing import List, Dict
+from typing import List, Dict, Tuple
 from urllib.parse import urlparse
 
 from parsel import Selector
@@ -22,7 +22,7 @@ class LineStickerSpider:
     urlf_search = 'https://store.line.me/api/search/sticker' \
                   '?query={query}&offset=0&limit=36&type=ALL&includeFacets=false'.format
     # sticker resolve order
-    sticker_order = ['sound', 'popup', 'animation', 'static']
+    sticker_order = ['popup', 'animation', 'static']
     re_sticker_id = re.compile('sticker/([^/]+)')  # sticker id in url
     re_sticker_page_id = re.compile('stickershop/product/([^/]+)')  # sticker shop id in url
 
@@ -47,10 +47,15 @@ class LineStickerSpider:
             results[d['title']] = d['id']
         return results
 
-    async def crawl_pages(self, page_ids: List[str]) -> List[str]:
+    async def crawl_pages(self, page_ids: List[str]) -> Tuple[List[str], List[str]]:
         """Crawl sticker pages for sticker urls"""
         all_results = await gather(*[self.crawl_page(id_) for id_ in page_ids])
-        return [r for results in all_results for r in results]
+        stickers = []
+        audio = []
+        for results in all_results:
+            stickers.extend(results[0])
+            audio.extend(results[1])
+        return stickers, audio
 
     async def crawl_page(self, page_id):
         """crawl single sticker page and parse out sticker file urls"""
@@ -69,16 +74,20 @@ class LineStickerSpider:
         with open(output / f'{id_}{ext}', 'wb') as f:
             f.write(await response.read())
 
-    def parse_page(self, body: str) -> List[str]:
+    def parse_page(self, body: str) -> Tuple[List[str], List[str]]:
         """Parse page for sticker urls"""
         sel = Selector(text=body)
         data = sel.css('.FnStickerPreviewItem::attr(data-preview)').extract()
         data = [json.loads(d) for d in data]
         stickers = []
+        audio = []
         for d in data:
+            sound = d.get(f'soundUrl')
+            if sound:
+                audio.append(sound)
             for key in self.sticker_order:
                 value = d.get(f'{key}Url')
                 if value:
                     stickers.append(value)
                     break
-        return stickers
+        return stickers, audio

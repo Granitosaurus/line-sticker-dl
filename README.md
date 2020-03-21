@@ -19,8 +19,12 @@ Options:
   -x, --speed INTEGER     concurrent request limit, higher speeds might cause
                           bans  [default: 10]
 
-  --help                  Show this message and exit.
-```
+  -a, --audio             include .m4a audio files for sound stickers
+  --mp4                   for sound sticker convert png + m4a into single mp4
+                          [requires ffmpeg]
+
+  --help                  Show this message and exit.`
+``
 
 ![demo](demo.svg)
 
