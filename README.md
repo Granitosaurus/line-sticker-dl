@@ -23,8 +23,8 @@ Options:
   --mp4                   for sound sticker convert png + m4a into single mp4
                           [requires ffmpeg]
 
-  --help                  Show this message and exit.`
-``
+  --help                  Show this message and exit.
+```
 
 ![demo](demo.svg)
 
