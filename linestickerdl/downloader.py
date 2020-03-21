@@ -1,9 +1,11 @@
 import asyncio
 import json
+import os
 import re
 from asyncio import gather
 from pathlib import Path
 from typing import List, Dict
+from urllib.parse import urlparse
 
 from parsel import Selector
 from aiohttp.connector import TCPConnector
@@ -63,7 +65,8 @@ class LineStickerSpider:
         """Donwload file and save it to output"""
         id_ = self.re_sticker_id.findall(url)[0]
         response = await self.con.get(url)
-        with open(output / f'{id_}.png', 'wb') as f:
+        ext = os.path.splitext(urlparse(url).path)[1]
+        with open(output / f'{id_}{ext}', 'wb') as f:
             f.write(await response.read())
 
     def parse_page(self, body: str) -> List[str]:

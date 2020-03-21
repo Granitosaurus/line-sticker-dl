@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "line-sticker-dl"
-version = "1.0.0"
+version = "1.0.1"
 description = "line sticker downloader"
 readme = 'README.md'
 authors = ["granitosaurus <tinarg@protonmail.com>"]
