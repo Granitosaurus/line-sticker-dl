@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "linestickerdl"
+name = "line-sticker-dl"
 version = "1.0.0"
 description = "line sticker downloader"
 readme = 'README.md'
@@ -8,6 +8,9 @@ keywords=['scraper', 'web-crawling', 'cli', 'sticker']
 license = "GPL-3.0-or-later"
 homepage = "https://github.com/granitosaurus/line-sticker-dl"
 repository = "https://github.com/granitosaurus/line-sticker-dl"
+packages = [
+    { include = "linestickerdl" }
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"
