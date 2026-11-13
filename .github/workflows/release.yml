@@ -18,6 +18,7 @@ jobs:
             echo "tag $GITHUB_REF_NAME does not match project version $version" >&2
             exit 1
           fi
+      - run: uv run --locked pytest
       - run: uv build
       - uses: actions/upload-artifact@v4
         with:

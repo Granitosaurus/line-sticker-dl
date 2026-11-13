@@ -37,7 +37,12 @@ requires = ["hatchling>=1.27"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.sdist]
-include = ["linestickerdl", "README.md"]
+include = ["linestickerdl", "tests", "README.md"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["linestickerdl"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+]
