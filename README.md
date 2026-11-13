@@ -53,30 +53,26 @@ Output urls to stdout or if `-o`/`--output` flag is given download sticker files
 
 # Install
 
-Can be installed as a standalone tool via [uv]:
+Can be installed via pip:
 
 ```shell
-$ uv tool install git+https://github.com/Granitosaurus/line-sticker-dl
+$ pip install --user line-sticker-dl
 ```
 
-or run once without installing:
+or as a standalone tool via [uv]:
 
 ```shell
-$ uvx --from git+https://github.com/Granitosaurus/line-sticker-dl line-sticker-dl --help
+$ uv tool install line-sticker-dl
+# or run once without installing
+$ uvx line-sticker-dl --help
 ```
 
-or run from a local checkout:
+or run from source:
 
 ```shell
 $ git clone https://github.com/Granitosaurus/line-sticker-dl
 $ cd line-sticker-dl
 $ uv run line-sticker-dl --help
-```
-
-pip works as well:
-
-```shell
-$ pip install --user git+https://github.com/Granitosaurus/line-sticker-dl
 ```
 
 [LINE]: https://store.line.me
