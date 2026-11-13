@@ -105,13 +105,14 @@ class Runner:
             if ext != '.m4a':
                 continue
             # TODO maybe gather this up but it's so quick as it is
-            result = await asyncio.create_subprocess_shell(
-                f'ffmpeg -i {path}.png -i {path}.m4a {path}.mp4 -y',
+            process = await asyncio.create_subprocess_exec(
+                'ffmpeg', '-i', f'{path}.png', '-i', f'{path}.m4a', f'{path}.mp4', '-y',
                 stdout=asyncio.subprocess.DEVNULL,
                 stderr=asyncio.subprocess.DEVNULL
             )
-            if result.returncode == 0:
+            if await process.wait() != 0:
                 echo(f'  failed to convert {path} png+m4a to mp4', err=True)
+                continue
             os.remove(f'{path}.png')
             os.remove(f'{path}.m4a')
             count += 1
