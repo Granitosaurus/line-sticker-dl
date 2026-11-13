@@ -7,6 +7,17 @@ authors = [{ name = "granitosaurus", email = "tinarg@protonmail.com" }]
 keywords = ["scraper", "web-crawling", "cli", "sticker"]
 license = "GPL-3.0-or-later"
 requires-python = ">=3.10"
+classifiers = [
+    "Environment :: Console",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Multimedia :: Graphics",
+    "Topic :: Utilities",
+]
 dependencies = [
     "click>=8.1",
     "parsel>=1.9",
@@ -22,8 +33,11 @@ Repository = "https://github.com/granitosaurus/line-sticker-dl"
 line-sticker-dl = "linestickerdl.cli:main"
 
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling>=1.27"]
 build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.sdist]
+include = ["linestickerdl", "README.md"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["linestickerdl"]

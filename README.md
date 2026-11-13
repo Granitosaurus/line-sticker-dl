@@ -26,7 +26,7 @@ Options:
   --help                  Show this message and exit.
 ```
 
-![demo](demo.svg)
+![demo](https://raw.githubusercontent.com/Granitosaurus/line-sticker-dl/master/demo.svg)
 
 The application can either download straight from urls or shop ids:
 
