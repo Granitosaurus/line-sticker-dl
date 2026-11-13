@@ -44,11 +44,14 @@ def main(ids_or_urls, output, search, speed, audio, mp4):
         found = LineStickerSpider.re_sticker_page_id.findall(id_)
         ids.append(found[0] if found else id_)
     runner = Runner(speed, audio, mp4)
-    if search:
-        ids = runner.search_stickers(search)
-    start = time()
-    runner.download_page(ids, output)
-    echo(f'finished in: {time() - start:.2f} seconds', err=True)
+    try:
+        if search:
+            ids = runner.search_stickers(search)
+        start = time()
+        runner.download_page(ids, output)
+        echo(f'finished in: {time() - start:.2f} seconds', err=True)
+    finally:
+        runner.close()
 
 
 class Runner:
@@ -60,8 +63,12 @@ class Runner:
         self.speed = speed
         self.include_audio = include_audio
         self.mp4 = mp4
-        self.loop = asyncio.get_event_loop()
+        self.loop = asyncio.new_event_loop()
         self.spider = LineStickerSpider(connection_limit=speed)
+
+    def close(self):
+        self.loop.run_until_complete(self.spider.close())
+        self.loop.close()
 
     def search_stickers(self, query):
         sticker_pages = self.loop.run_until_complete(self.spider.crawl_search(query))

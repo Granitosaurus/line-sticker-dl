@@ -1,4 +1,3 @@
-import asyncio
 import json
 import os
 import re
@@ -27,11 +26,21 @@ class LineStickerSpider:
     re_sticker_page_id = re.compile('stickershop/product/([^/]+)')  # sticker shop id in url
 
     def __init__(self, connection_limit=10):
-        connector = TCPConnector(limit=connection_limit)
-        self.con = ClientSession(connector=connector, headers=self.headers)
+        self.connection_limit = connection_limit
+        self._con = None
 
-    def __del__(self):
-        asyncio.ensure_future(self.con.close())
+    @property
+    def con(self) -> ClientSession:
+        # aiohttp requires the session to be created inside a running event loop
+        if self._con is None:
+            connector = TCPConnector(limit=self.connection_limit)
+            self._con = ClientSession(connector=connector, headers=self.headers)
+        return self._con
+
+    async def close(self):
+        if self._con is not None:
+            await self._con.close()
+            self._con = None
 
     async def crawl_search(self, query) -> Dict[str, str]:
         """
