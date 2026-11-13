@@ -53,18 +53,31 @@ Output urls to stdout or if `-o`/`--output` flag is given download sticker files
 
 # Install
 
-Can be installed via pip:
+Can be installed as a standalone tool via [uv]:
 
 ```shell
-$ pip install --user line-sticker-dl
+$ uv tool install git+https://github.com/Granitosaurus/line-sticker-dl
 ```
 
-or built from source:
+or run once without installing:
 
-```shell script
+```shell
+$ uvx --from git+https://github.com/Granitosaurus/line-sticker-dl line-sticker-dl --help
+```
+
+or run from a local checkout:
+
+```shell
 $ git clone https://github.com/Granitosaurus/line-sticker-dl
 $ cd line-sticker-dl
-$ pip install .
+$ uv run line-sticker-dl --help
+```
+
+pip works as well:
+
+```shell
+$ pip install --user git+https://github.com/Granitosaurus/line-sticker-dl
 ```
 
 [LINE]: https://store.line.me
+[uv]: https://docs.astral.sh/uv/
